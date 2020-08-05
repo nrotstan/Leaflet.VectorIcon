@@ -78,6 +78,12 @@ L.VectorIcon = L.Icon.extend({
 		figure.setAttributeNS(null, 'stroke', options.style.stroke || 'none');
 		figure.setAttributeNS(null, 'stroke-width', options.style.strokeWidth);
 		figure.setAttributeNS(null, 'fill', options.style.fill || 'none');
+		if (options.style.transform) {
+			figure.setAttributeNS(null, 'transform', options.style.transform);
+		}
+		if (options.style.transformOrigin) {
+			figure.setAttributeNS(null, 'transform-origin', options.style.transformOrigin);
+		}
 
 		g.appendChild(figure);
 		svg.appendChild(g);
