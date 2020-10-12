@@ -37,8 +37,8 @@ L.VectorIcon = L.Icon.extend({
 		svg.setAttribute('width', options.svgWidth + '');
 		svg.setAttribute('viewBox', options.viewBox + '');
 
-		svg.style.marginTop = (options.svgHeight/2 - 6) * -1 + 'px';
-		svg.style.marginLeft = (options.svgWidth/2 - 6) * -1 + 'px';
+		svg.style.marginTop = options.style.marginTop ? options.style.marginTop : (options.svgHeight/2 - 6) * -1 + 'px';
+		svg.style.marginLeft = options.style.marginLeft ? options.style.marginLeft : (options.svgWidth/2 - 6) * -1 + 'px';
 
 		if(options.type === 'path') {
 			figure = document.createElementNS('http://www.w3.org/2000/svg', 'path');
