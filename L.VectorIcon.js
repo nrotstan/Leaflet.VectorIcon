@@ -23,80 +23,83 @@ L.VectorIcon = L.Icon.extend({
 		text: ''
 	},
 
-	createIcon: function (oldIcon) {
-		var div = (oldIcon && oldIcon.tagName === 'DIV') ? oldIcon : document.createElement('div'),
-				svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg'),
-				g = document.createElementNS('http://www.w3.org/2000/svg', 'g'),
-				options = this.options,
-				figure;
-
-		svg.setAttributeNS(null, 'version', '1.1')
-		svg.setAttribute("xmlns", "http://www.w3.org/2000/svg");
-		svg.setAttribute("xmlns:xlink", "http://www.w3.org/1999/xlink");
-		svg.setAttribute('height', options.svgHeight + '');
-		svg.setAttribute('width', options.svgWidth + '');
-		svg.setAttribute('viewBox', options.viewBox + '');
-
-		svg.style.marginTop = (options.svgHeight/2 - 6) * -1 + 'px';
-		svg.style.marginLeft = (options.svgWidth/2 - 6) * -1 + 'px';
-
-		if(options.type === 'path') {
-			figure = document.createElementNS('http://www.w3.org/2000/svg', 'path');
-			figure.setAttributeNS(null, 'd', options.shape.d);
-		}
-		else if(options.type === 'circle') {
-			figure = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
-			figure.setAttributeNS(null, 'cx', options.shape.cx);
-			figure.setAttributeNS(null, 'cy', options.shape.cy);
-			figure.setAttributeNS(null, 'r', options.shape.r);
-		}
-		else if(options.type === 'rect') {
-			figure = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
-			figure.setAttributeNS(null, 'x', options.shape.x);
-			figure.setAttributeNS(null, 'y', options.shape.y);
-			figure.setAttributeNS(null, 'width', options.shape.width);
-			figure.setAttributeNS(null, 'height', options.shape.height);
-		}
-		else if(options.type === 'text') {
-			figure = document.createElementNS('http://www.w3.org/2000/svg', 'text');
-			figure.setAttributeNS(null, 'x', options.shape.x);
-			figure.setAttributeNS(null, 'y', options.shape.y);
-			figure.setAttributeNS(null, 'font-family', options.style.fontFamily || 'Arial');
-			figure.setAttributeNS(null, 'font-style', options.style.fontStyle || 'normal');
-			figure.setAttributeNS(null, 'font-variant', options.style.fontVariant || 'normal');
-			figure.setAttributeNS(null, 'font-weight', options.style.fontWeight || 'normal');
-			figure.setAttributeNS(null, 'font-size', options.style.fontSize || '12');
-			figure.setAttributeNS(null, 'text-anchor', options.style.textAnchor || 'middle');
-			figure.setAttributeNS(null, 'text-decoration', options.style.textDecoration || 'none');
-			figure.setAttributeNS(null, 'text-rendering', options.style.textRendering || 'auto');
-			figure.innerHTML = options.text;
-		}
-		else {
-			console.log('Error: defined type of svg shape is invalid.');
-		}
-
-		figure.setAttributeNS(null, 'stroke', options.style.stroke || 'none');
-		figure.setAttributeNS(null, 'stroke-width', options.style.strokeWidth);
-		figure.setAttributeNS(null, 'fill', options.style.fill || 'none');
-		if (options.style.transform) {
-			figure.setAttributeNS(null, 'transform', options.style.transform);
-		}
-		if (options.style.transformOrigin) {
-			figure.setAttributeNS(null, 'transform-origin', options.style.transformOrigin);
-		}
-
-		g.appendChild(figure);
-		svg.appendChild(g);
-		div.appendChild(svg);
-
-		if (options.bgPos) {
-			var bgPos = L.point(options.bgPos);
-			div.style.backgroundPosition = (-bgPos.x) + 'px ' + (-bgPos.y) + 'px';
-		}
-		this._setIconStyles(div, 'icon');
-
-		return div;
-	},
+    createIcon: function (oldIcon) {
+        var div = document.createElement('div');
+        var svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+        var g = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+        var options = this.options;
+        var figure;
+    
+        var iconId = 'icon-' + L.stamp(this); // Generate unique ID using Leaflet's stamp method
+        div.id = iconId;
+    
+        svg.setAttributeNS(null, 'version', '1.1');
+        svg.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
+        svg.setAttribute('xmlns:xlink', 'http://www.w3.org/1999/xlink');
+        svg.setAttribute('height', options.svgHeight + '');
+        svg.setAttribute('width', options.svgWidth + '');
+        svg.setAttribute('viewBox', options.viewBox + '');
+    
+        svg.style.marginTop = options.style.marginTop ? options.style.marginTop : (options.svgHeight/2 - 6) * -1 + 'px';
+        svg.style.marginLeft = options.style.marginLeft ? options.style.marginLeft : (options.svgWidth/2 - 6) * -1 + 'px';
+    
+        if (options.type === 'path') {
+            figure = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+            figure.setAttribute('d', options.shape.d);
+        }
+        else if (options.type === 'circle') {
+            figure = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+            figure.setAttribute('cx', options.shape.cx);
+            figure.setAttribute('cy', options.shape.cy);
+            figure.setAttribute('r', options.shape.r);
+        }
+        else if (options.type === 'rect') {
+            figure = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+            figure.setAttribute('x', options.shape.x);
+            figure.setAttribute('y', options.shape.y);
+            figure.setAttribute('width', options.shape.width);
+            figure.setAttribute('height', options.shape.height);
+        }
+        else if (options.type === 'text') {
+            figure = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+            figure.setAttribute('x', options.shape.x);
+            figure.setAttribute('y', options.shape.y);
+            figure.setAttribute('font-family', options.style.fontFamily || 'Arial');
+            figure.setAttribute('font-style', options.style.fontStyle || 'normal');
+            figure.setAttribute('font-variant', options.style.fontVariant || 'normal');
+            figure.setAttribute('font-weight', options.style.fontWeight || 'normal');
+            figure.setAttribute('font-size', options.style.fontSize || '12');
+            figure.setAttribute('text-anchor', options.style.textAnchor || 'middle');
+            figure.setAttribute('text-decoration', options.style.textDecoration || 'none');
+            figure.setAttribute('text-rendering', options.style.textRendering || 'auto');
+            figure.innerHTML = options.text;
+        }
+        else {
+            console.log('Error: defined type of svg shape is invalid.');
+        }
+    
+        figure.setAttribute('stroke', options.style.stroke || 'none');
+        figure.setAttribute('stroke-width', options.style.strokeWidth);
+        figure.setAttribute('fill', options.style.fill || 'none');
+        if (options.style.transform) {
+            figure.setAttribute('transform', options.style.transform);
+        }
+        if (options.style.transformOrigin) {
+            figure.setAttribute('transform-origin', options.style.transformOrigin);
+        }
+    
+        g.appendChild(figure);
+        svg.appendChild(g);
+        div.appendChild(svg);
+    
+        if (options.bgPos) {
+            var bgPos = L.point(options.bgPos);
+            div.style.backgroundPosition = (-bgPos.x) + 'px ' + (-bgPos.y) + 'px';
+        }
+        this._setIconStyles(div, 'icon');
+    
+        return div;
+    },
 
 	createShadow: function () {
 		return null;
